@@ -2,6 +2,8 @@
 
 #include <ospf/concepts.hpp>
 #include <concepts>
+#include <format>
+#include <string>
 #include <string_view>
 #include <type_traits>
 
@@ -123,4 +125,20 @@ OSPF_FUNDAMENTAL_QUANTITY_TEMPLATE(Dim, N10, 10)
 			};
 		};
 	};
+};
+
+template<ospf::quantity::fundamental_quantity::FundamentalDimension FD, typename CharT>
+struct std::formatter<FD, CharT> : std::formatter<std::string_view, CharT> {
+	template<class FormatContext>
+	auto format(const FD fd, FormatContext& fc) {
+		return std::formatter<std::string_view, CharT>::format(FD::name, fc);
+	}
+};
+
+template<ospf::quantity::fundamental_quantity::FundamentalQuantity FQ, typename CharT>
+struct std::formatter<FQ, CharT> : std::formatter<std::string_view, CharT> {
+	template<class FormatContext>
+	auto format(const FQ fq, FormatContext& fc) {
+		return std::formatter<std::string_view, CharT>::format((typename FQ::Dimension)::name + std::to_string(fq.index), fc);
+	}
 };
