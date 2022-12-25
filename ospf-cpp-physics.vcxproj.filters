@@ -24,5 +24,11 @@
     <ClInclude Include="src\ospf\physics\quantity\dimension\fundamental_quantity.hpp">
       <Filter>src\ospf\physics\quantity\dimension</Filter>
     </ClInclude>
+    <ClInclude Include="src\ospf\physics\quantity\dimension\derived_quantity.hpp">
+      <Filter>src\ospf\physics\quantity\dimension</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ospf\physics\quantity\dimension\derived_quantities.hpp">
+      <Filter>src\ospf\physics\quantity\dimension</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

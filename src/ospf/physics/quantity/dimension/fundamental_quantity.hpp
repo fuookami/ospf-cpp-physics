@@ -13,17 +13,24 @@ namespace ospf
     {
         namespace quantity
         {
-            namespace fundamental_quantity
+            inline namespace fundamental_quantity
             {
                 struct FundamentalDimensionBase {};
 
                 template<typename T>
                 concept FundamentalDimension = std::derived_from<T, FundamentalDimensionBase>
-                    && requires 
-                    {
-                        { T::name } -> DecaySameAs<std::string_view>;
-                        { T::description } -> DecaySameAs<std::string_view>;
-                    };
+                    && requires
+                {
+                    { T::name } -> DecaySameAs<std::string_view>;
+                    { T::description } -> DecaySameAs<std::string_view>;
+                };
+
+                template<FundamentalDimension Dim, i64 i>
+                struct FundamentalQuantityType
+                {
+                    using Dimension = Dim;
+                    static constexpr const i64 index = i;
+                };
 
                 template<typename T>
                 concept FundamentalQuantity = requires
@@ -31,6 +38,14 @@ namespace ospf
                     requires FundamentalDimension<typename T::Dimension>;
                     { T::index } -> DecaySameAs<i64>;
                 };
+
+                template<FundamentalQuantity FQ, FundamentalDimension FD>
+                struct IsDimension
+                {
+                    static constexpr const bool value = std::is_same_v<typename FQ::Dimension, FD>;
+                };
+                template<FundamentalQuantity FQ, FundamentalDimension FD>
+                static constexpr const bool is_dimension = IsDimension<FQ, FD>::value;
 
                 template<FundamentalQuantity FQ1, FundamentalQuantity FQ2>
                 struct IsDimensionSame
@@ -127,7 +142,7 @@ OSPF_FUNDAMENTAL_QUANTITY_TEMPLATE(Dim, N10, 10)
     };
 };
 
-template<ospf::quantity::fundamental_quantity::FundamentalDimension FD, typename CharT>
+template<ospf::physics::quantity::fundamental_quantity::FundamentalDimension FD, typename CharT>
 struct std::formatter<FD, CharT> : std::formatter<std::string_view, CharT> {
     template<class FormatContext>
     auto format(const FD fd, FormatContext& fc) {
@@ -135,7 +150,7 @@ struct std::formatter<FD, CharT> : std::formatter<std::string_view, CharT> {
     }
 };
 
-template<ospf::quantity::fundamental_quantity::FundamentalQuantity FQ, typename CharT>
+template<ospf::physics::quantity::fundamental_quantity::FundamentalQuantity FQ, typename CharT>
 struct std::formatter<FQ, CharT> : std::formatter<std::string_view, CharT> {
     template<class FormatContext>
     auto format(const FQ fq, FormatContext& fc) {

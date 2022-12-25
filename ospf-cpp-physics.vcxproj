@@ -71,10 +71,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)\3rd-party\ospf-cpp-base\src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)src;$(SolutionDir)3rd-party\ospf-cpp-base\src;$(SolutionDir)3rd-party\magic_enum\include;$(BOOST_HOME)\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)\3rd-party\ospf-cpp-base\src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)src;$(SolutionDir)3rd-party\ospf-cpp-base\src;$(SolutionDir)3rd-party\magic_enum\include;$(BOOST_HOME)\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -137,6 +137,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ospf\physics\quantity\dimension\derived_quantities.hpp" />
+    <ClInclude Include="src\ospf\physics\quantity\dimension\derived_quantity.hpp" />
     <ClInclude Include="src\ospf\physics\quantity\dimension\fundamental_quantity.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
